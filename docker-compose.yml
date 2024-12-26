@@ -1,0 +1,21 @@
+services:
+  api-gateway:
+    build: WebApi/
+    image: api-gateway
+    ports:
+      - "8080:8080"
+    depends_on:
+      - rabbitmq
+        
+  email-service:
+    build: EmailNotifications.WebApi/
+    image: email-service
+    ports:
+      - "8081:8081"
+    
+  rabbitmq:
+    image: rabbitmq:management-alpine
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+ 
