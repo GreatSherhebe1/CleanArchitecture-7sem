@@ -1,6 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ApiGateway", "ApiGateway", "{EF0859D9-2F09-43A1-8B8E-A950F252CC77}"
+	ProjectSection(SolutionItems) = preProject
+		docker-compose.yml = docker-compose.yml
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiGateway.WebApi", "ApiGateway.WebApi\ApiGateway.WebApi.csproj", "{362B9B7A-F7C5-4E1F-AEEA-8D141C5114C4}"
 EndProject
@@ -13,6 +16,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contracts", "Contracts\Contracts.csproj", "{93DD630C-6A53-4D48-967E-D373070AAC9E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiGateway.IntegrationTests", "ApiGateway.IntegrationTests\ApiGateway.IntegrationTests.csproj", "{FC05B8FA-6556-43CE-8F78-91AFF4E2411E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedLibraries", "SharedLibraries\SharedLibraries.csproj", "{0E6402DA-4EC8-43FC-A7F0-CC1114098FCC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -36,6 +41,10 @@ Global
 		{FC05B8FA-6556-43CE-8F78-91AFF4E2411E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FC05B8FA-6556-43CE-8F78-91AFF4E2411E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FC05B8FA-6556-43CE-8F78-91AFF4E2411E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0E6402DA-4EC8-43FC-A7F0-CC1114098FCC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E6402DA-4EC8-43FC-A7F0-CC1114098FCC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E6402DA-4EC8-43FC-A7F0-CC1114098FCC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E6402DA-4EC8-43FC-A7F0-CC1114098FCC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{362B9B7A-F7C5-4E1F-AEEA-8D141C5114C4} = {EF0859D9-2F09-43A1-8B8E-A950F252CC77}

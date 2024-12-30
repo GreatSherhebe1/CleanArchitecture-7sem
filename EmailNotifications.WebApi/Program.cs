@@ -1,6 +1,17 @@
 using MassTransit;
+using Serilog;
+using SharedLibraries;
+
+var configuration = DefaultApiConfiguration.BuildDefaultConfiguration();
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Configuration.AddConfiguration(configuration);
+
+Log.Logger = DefaultApiLogger.CreateLogger(configuration, builder.Environment);
+builder.Services.AddSerilog();
+
+builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
