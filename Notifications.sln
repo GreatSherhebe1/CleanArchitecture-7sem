@@ -1,23 +1,30 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35327.3
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ApiGateway", "ApiGateway", "{EF0859D9-2F09-43A1-8B8E-A950F252CC77}"
 	ProjectSection(SolutionItems) = preProject
 		docker-compose.yml = docker-compose.yml
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiGateway.WebApi", "ApiGateway.WebApi\ApiGateway.WebApi.csproj", "{362B9B7A-F7C5-4E1F-AEEA-8D141C5114C4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApiGateway.WebApi", "ApiGateway.WebApi\ApiGateway.WebApi.csproj", "{362B9B7A-F7C5-4E1F-AEEA-8D141C5114C4}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Channels", "Channels", "{1891E150-35F6-49AD-A6D8-2993057C7D0A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EmailNotifications", "EmailNotifications", "{7868CA94-E245-4A41-9C47-3AD3D4E6D27A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmailNotifications.WebApi", "EmailNotifications.WebApi\EmailNotifications.WebApi.csproj", "{C94BAE9F-1F80-4481-80C6-D8ADEC50DE1E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmailNotifications.WebApi", "EmailNotifications.WebApi\EmailNotifications.WebApi.csproj", "{C94BAE9F-1F80-4481-80C6-D8ADEC50DE1E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contracts", "Contracts\Contracts.csproj", "{93DD630C-6A53-4D48-967E-D373070AAC9E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Contracts", "Contracts\Contracts.csproj", "{93DD630C-6A53-4D48-967E-D373070AAC9E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiGateway.IntegrationTests", "ApiGateway.IntegrationTests\ApiGateway.IntegrationTests.csproj", "{FC05B8FA-6556-43CE-8F78-91AFF4E2411E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApiGateway.IntegrationTests", "ApiGateway.IntegrationTests\ApiGateway.IntegrationTests.csproj", "{FC05B8FA-6556-43CE-8F78-91AFF4E2411E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedLibraries", "SharedLibraries\SharedLibraries.csproj", "{0E6402DA-4EC8-43FC-A7F0-CC1114098FCC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharedLibraries", "SharedLibraries\SharedLibraries.csproj", "{0E6402DA-4EC8-43FC-A7F0-CC1114098FCC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TelegramNotifications", "TelegramNotifications", "{28CD35EB-9FD6-4DC1-9DE1-7E2848F1FC8E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TelegramNotifications.WebApi", "TelegramNotifications.WebApi\TelegramNotifications.WebApi.csproj", "{69D5FA10-F187-4794-8F53-45D55552467C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,11 +52,23 @@ Global
 		{0E6402DA-4EC8-43FC-A7F0-CC1114098FCC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0E6402DA-4EC8-43FC-A7F0-CC1114098FCC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0E6402DA-4EC8-43FC-A7F0-CC1114098FCC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{69D5FA10-F187-4794-8F53-45D55552467C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{69D5FA10-F187-4794-8F53-45D55552467C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{69D5FA10-F187-4794-8F53-45D55552467C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{69D5FA10-F187-4794-8F53-45D55552467C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{362B9B7A-F7C5-4E1F-AEEA-8D141C5114C4} = {EF0859D9-2F09-43A1-8B8E-A950F252CC77}
 		{7868CA94-E245-4A41-9C47-3AD3D4E6D27A} = {1891E150-35F6-49AD-A6D8-2993057C7D0A}
 		{C94BAE9F-1F80-4481-80C6-D8ADEC50DE1E} = {7868CA94-E245-4A41-9C47-3AD3D4E6D27A}
 		{FC05B8FA-6556-43CE-8F78-91AFF4E2411E} = {EF0859D9-2F09-43A1-8B8E-A950F252CC77}
+		{28CD35EB-9FD6-4DC1-9DE1-7E2848F1FC8E} = {1891E150-35F6-49AD-A6D8-2993057C7D0A}
+		{69D5FA10-F187-4794-8F53-45D55552467C} = {28CD35EB-9FD6-4DC1-9DE1-7E2848F1FC8E}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {58E105C4-BC6B-4AFB-B129-9226A37E3950}
 	EndGlobalSection
 EndGlobal
