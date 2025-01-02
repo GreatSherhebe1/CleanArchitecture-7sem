@@ -6,6 +6,8 @@ var configuration = DefaultApiConfiguration.BuildDefaultConfiguration();
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.AddServiceDefaults();
+
 builder.Configuration.AddConfiguration(configuration);
 
 Log.Logger = DefaultApiLogger.CreateLogger(configuration, builder.Environment);
@@ -39,5 +41,6 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.MapControllers();
+app.MapDefaultEndpoints();
 
 app.Run();
