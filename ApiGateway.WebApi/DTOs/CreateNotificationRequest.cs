@@ -8,7 +8,7 @@ public record CreateNotificationRequest
     public required ImmutableHashSet<string> Channels { get; init; } = [];
     
     public required string Text { get; init; } = "";
-    public required IReadOnlyCollection<string> Recipients { get; init; } = [];
+    public required ImmutableHashSet<string> Recipients { get; init; } = [];
 
     public IEnumerable<NotificationRequested> MapToContracts()
     {

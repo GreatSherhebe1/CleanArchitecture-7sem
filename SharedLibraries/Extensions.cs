@@ -1,19 +1,32 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using OpenTelemetry.Logs;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Trace;
+using Serilog;
 
 namespace SharedLibraries;
 
 public static class Extensions
 {
-    public static IHostApplicationBuilder AddServiceDefaults(this IHostApplicationBuilder builder)
+    public static IHostApplicationBuilder AddServiceDefaults(this WebApplicationBuilder builder)
     {
+        var configuration = DefaultApiConfiguration.BuildDefaultConfiguration();
+
+        builder.Configuration.AddConfiguration(configuration);
+        
         builder.ConfigureOpenTelemetry();
+
+        Log.Logger = DefaultApiLogger.CreateLogger(configuration, builder.Environment);
+        builder.Services.AddSerilog();
+        
+        builder.Services.AddControllers();
+
+        builder.Services.AddEndpointsApiExplorer();
 
         return builder;
     }
