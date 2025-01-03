@@ -1,50 +1,40 @@
+using EmailNotifications.WebApi;
 using MassTransit;
-using Serilog;
 using SharedLibraries;
 
-namespace EmailNotifications.WebApi
+var builder = WebApplication.CreateBuilder(args);
+
+builder.AddServiceDefaults();
+
+builder.Services.AddSwaggerGen();
+
+builder.Services.AddMassTransit(x =>
 {
-    public class Program
+    var assembly = typeof(Program).Assembly;
+
+    x.SetKebabCaseEndpointNameFormatter();
+    x.AddConsumers(assembly);
+
+    x.UsingRabbitMq((ctx, cfg) =>
     {
-        public static void Main(string[] args)
+        var connectionString = builder.Configuration["RabbitMQ:ConnectionString"];
+        cfg.Host(connectionString != null ? new Uri(connectionString) : null);
+        cfg.ReceiveEndpoint("notification-requested-email-service", e =>
         {
-            var configuration = DefaultApiConfiguration.BuildDefaultConfiguration();
+            e.Consumer<NotificationRequestedConsumer>(ctx);
+        });
+    });
+});
 
-            var builder = WebApplication.CreateBuilder(args);
+var app = builder.Build();
 
-            builder.AddServiceDefaults();
+// Configure the HTTP request pipeline.
+app.UseSwagger();
+app.UseSwaggerUI();
 
-            builder.Configuration.AddConfiguration(configuration);
+app.UseHttpsRedirection();
 
-            Log.Logger = DefaultApiLogger.CreateLogger(configuration, builder.Environment);
-            builder.Services.AddSerilog();
+app.MapControllers();
+app.MapDefaultEndpoints();
 
-            builder.Services.AddControllers();
-
-            builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
-
-            builder.Services.AddMassTransit(x =>
-            {
-                x.SetKebabCaseEndpointNameFormatter();
-                x.UsingRabbitMq((ctx, cfg) =>
-                {
-                    var connectionString = builder.Configuration["RabbitMQ:ConnectionString"];
-                    cfg.Host(connectionString != null ? new Uri(connectionString) : null);
-                });
-            });
-
-            var app = builder.Build();
-
-            app.UseSwagger();
-            app.UseSwaggerUI();
-
-            app.UseHttpsRedirection();
-
-            app.MapControllers();
-            app.MapDefaultEndpoints();
-
-            app.Run();
-        }
-    }
-}
+app.Run();

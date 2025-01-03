@@ -33,10 +33,10 @@ services:
     depends_on:
       - rabbitmq
       - notification-status-tracker-db
-    command: ["dotnet", "ef", "database update"]
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
       - ConnectionStrings__DefaultConnection=User ID=postgres;Password=postgres;Server=notification-status-tracker-db;Port=5432;Database=SampleDriverDb; Integrated Security=true;Pooling=true;
+    command: ["dotnet", "ef", "database update"]
     
   notification-status-tracker-db:
     image: postgres:15
