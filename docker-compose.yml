@@ -10,7 +10,7 @@ services:
       - rabbitmq
   
   email-service:
-    build: EmailNotifications.WebApi/
+    build: ./EmailNotifications.WebApi/
     image: email-service
     ports:
       - "8081:8081"
@@ -20,7 +20,7 @@ services:
       - ASPNETCORE_ENVIRONMENT=Production
   
   telegram-service:
-    build: TelegramNotifications.WebApi/
+    build: ./TelegramNotifications.WebApi/
     image: telegram-service
     ports:
       - "8082:8082"

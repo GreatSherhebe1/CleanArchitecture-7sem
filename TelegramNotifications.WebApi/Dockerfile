@@ -12,9 +12,9 @@ EXPOSE 8083
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["TelegramNotifications.WebApi/TelegramNotifications.WebApi.csproj", "TelegramNotifications.WebApi/"]
+COPY ["TelegramNotifications.WebApi.csproj", "TelegramNotifications.WebApi/"]
+COPY . ./
 RUN dotnet restore "./TelegramNotifications.WebApi/TelegramNotifications.WebApi.csproj"
-COPY . .
 WORKDIR "/src/TelegramNotifications.WebApi"
 RUN dotnet build "./TelegramNotifications.WebApi.csproj" -c $BUILD_CONFIGURATION -o /app/build
 

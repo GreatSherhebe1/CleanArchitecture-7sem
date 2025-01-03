@@ -2,49 +2,53 @@ using MassTransit;
 using Serilog;
 using SharedLibraries;
 
-var configuration = DefaultApiConfiguration.BuildDefaultConfiguration();
-
-var builder = WebApplication.CreateBuilder(args);
-
-builder.AddServiceDefaults();
-
-builder.Configuration.AddConfiguration(configuration);
-
-Log.Logger = DefaultApiLogger.CreateLogger(configuration, builder.Environment);
-builder.Services.AddSerilog();
-
-builder.Services.AddControllers();
-
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
-builder.Services.AddMassTransit(x =>
+namespace EmailNotifications.WebApi
 {
-    var assembly = typeof(Program).Assembly;
-
-    x.SetKebabCaseEndpointNameFormatter();
-    x.AddConsumers(assembly);
-
-    x.UsingRabbitMq((ctx, cfg) =>
+    public class Program
     {
-        var connectionString = builder.Configuration["RabbitMQ:ConnectionString"];
-        cfg.Host(connectionString != null ? new Uri(connectionString) : null);
-        cfg.ConfigureEndpoints(ctx);
-    });
-});
+        public static void Main(string[] args)
+        {
+            var configuration = DefaultApiConfiguration.BuildDefaultConfiguration();
 
-var app = builder.Build();
+            var builder = WebApplication.CreateBuilder(args);
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
+            builder.AddServiceDefaults();
+
+            builder.Configuration.AddConfiguration(configuration);
+
+            Log.Logger = DefaultApiLogger.CreateLogger(configuration, builder.Environment);
+            builder.Services.AddSerilog();
+
+            builder.Services.AddControllers();
+
+            builder.Services.AddEndpointsApiExplorer();
+            builder.Services.AddSwaggerGen();
+
+            builder.Services.AddMassTransit(x =>
+            {
+                x.SetKebabCaseEndpointNameFormatter();
+                x.UsingRabbitMq((ctx, cfg) =>
+                {
+                    var connectionString = builder.Configuration["RabbitMQ:ConnectionString"];
+                    cfg.Host(connectionString != null ? new Uri(connectionString) : null);
+                });
+            });
+
+            var app = builder.Build();
+
+            // Configure the HTTP request pipeline.
+            if (app.Environment.IsDevelopment())
+            {
+                app.UseSwagger();
+                app.UseSwaggerUI();
+            }
+
+            app.UseHttpsRedirection();
+
+            app.MapControllers();
+            app.MapDefaultEndpoints();
+
+            app.Run();
+        }
+    }
 }
-
-app.UseHttpsRedirection();
-
-app.MapControllers();
-app.MapDefaultEndpoints();
-
-app.Run();
