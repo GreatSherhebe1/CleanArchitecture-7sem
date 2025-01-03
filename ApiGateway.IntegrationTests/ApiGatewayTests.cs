@@ -44,4 +44,28 @@ public class Tests
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
         });
     }
+
+    [Test]
+    public async Task CreateNotification_TelegramNotification_NotificationRetrievedToTelegramService()
+    {
+        var client = _apiGatewayFactory.CreateClient();
+
+        var response = await client.PostAsJsonAsync("notifications", new CreateNotificationRequest
+        {
+            Channels = ["telegram"],
+            Text = "some text",
+            Recipients = ["@test"]
+        });
+
+        var telegramServiceLogs = await _apiGatewayFactory.TelegramNotificationContainer.GetLogsAsync();
+
+        Console.WriteLine(telegramServiceLogs.Stdout);
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(telegramServiceLogs.Stdout, Is.Not.Empty);
+            Assert.That(telegramServiceLogs.Stderr, Is.Empty);
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+        });
+    }
 }

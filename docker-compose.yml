@@ -50,6 +50,18 @@ services:
     volumes:
       - notification-status-tracker-data:/var/lib/postgresql/data
   
+  telegram-service:
+    build: 
+      dockerfile: ./TelegramNotifications.WebApi/Dockerfile
+      context: .
+    image: telegram-service
+    ports:
+      - "8082:8080"
+    depends_on:
+      - rabbitmq
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+
   rabbitmq:
     image: rabbitmq:management-alpine
     ports:
