@@ -19,6 +19,16 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
   
+  telegram-service:
+    build: TelegramNotifications.WebApi/
+    image: telegram-service
+    ports:
+      - "8082:8082"
+    depends_on:
+      - rabbitmq
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+
   rabbitmq:
     image: rabbitmq:management-alpine
     ports:

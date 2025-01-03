@@ -15,6 +15,7 @@ public sealed class ApiGatewayFactory : WebApplicationFactory<IApiMarker>
 {
     public RabbitMqContainer RabbitMqContainer { get; set; }
     public IContainer EmailNotificationContainer { get; set; }
+    public IContainer TelegramNotificationContainer { get; set; }
 
     public async Task StartContainersAsync()
     {
@@ -29,6 +30,7 @@ public sealed class ApiGatewayFactory : WebApplicationFactory<IApiMarker>
         await RabbitMqContainer.StartAsync();
         
         const string testcontainer = "testcontainers/email-service:dev";
+        const string telegramcontainer = "testcontainers/telegram-service:dev";
 
         var emailNotificationImage = new ImageFromDockerfileBuilder()
             .WithDockerfileDirectory(CommonDirectoryPath.GetSolutionDirectory(), "")
@@ -41,6 +43,18 @@ public sealed class ApiGatewayFactory : WebApplicationFactory<IApiMarker>
             .Build();
 
         await emailNotificationImage.CreateAsync();
+
+        var telegramNotificationImage = new ImageFromDockerfileBuilder()
+            .WithDockerfileDirectory(CommonDirectoryPath.GetSolutionDirectory(), "")
+            .WithDockerfile("TelegramNotifications.WebApi/Dockerfile")
+            .WithName(telegramcontainer)
+            .WithImageBuildPolicy(PullPolicy.Missing)
+            .WithCleanUp(true)
+            .WithDeleteIfExists(true)
+            .WithBuildArgument("RESOURCE_REAPER_SESSION_ID", ResourceReaper.DefaultSessionId.ToString("D"))
+            .Build();
+
+        await telegramNotificationImage.CreateAsync();
         
         EmailNotificationContainer = new ContainerBuilder()
             .WithImage(emailNotificationImage.FullName)
@@ -49,8 +63,17 @@ public sealed class ApiGatewayFactory : WebApplicationFactory<IApiMarker>
             // .WithEnvironment("ASPNETCORE_RabbitMQ__ConnectionString", RabbitMqContainer.GetConnectionString())
             .DependsOn(RabbitMqContainer)
             .Build();
-        
+
         await EmailNotificationContainer.StartAsync();
+
+        TelegramNotificationContainer = new ContainerBuilder()
+            .WithImage(telegramNotificationImage.FullName)
+            .WithImagePullPolicy (PullPolicy.Never)
+            .WithNetwork(network)
+            .DependsOn(RabbitMqContainer)
+            .Build();
+
+        await TelegramNotificationContainer.StartAsync();
     }
 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
@@ -87,10 +110,12 @@ public sealed class ApiGatewayFactory : WebApplicationFactory<IApiMarker>
     private async ValueTask DisposeAsyncCore()
     {
         await EmailNotificationContainer.StopAsync();
+        await TelegramNotificationContainer.StopAsync();
         await RabbitMqContainer.StopAsync();
 
         await RabbitMqContainer.DisposeAsync();
         await EmailNotificationContainer.DisposeAsync();
+        await TelegramNotificationContainer.DisposeAsync();
     }
 
     public override async ValueTask DisposeAsync()
